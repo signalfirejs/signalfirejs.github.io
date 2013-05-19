@@ -1,77 +1,260 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="SignalFire.JS : RTCPeerConnection signaling library/npm module. It does the signaling and then gets out of your way." />
+	<head>
+		<meta charset='utf-8' />
+		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+		<meta name="description" content="SignalFire.JS : RTCPeerConnection signaling library/npm module. It does the signaling and then gets out of your way." />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>SignalFire.js</title>
-  </head>
+		<title>SignalFire.js</title>
+	</head>
 
-  <body>
+	<body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/traviswimer/SignalFire.js">View on GitHub</a>
+		<!-- HEADER -->
+		<div id="header_wrap" class="outer">
+				<header class="inner">
+					<a id="forkme_banner" href="https://github.com/traviswimer/SignalFire.js">View on GitHub</a>
 
-          <h1 id="project_title">
-            <img src="images/signalfire.png" alt="SignalFire.JS">
-          </h1>
-          <h2 id="project_tagline">RTCPeerConnection signaling library/npm module. It does the signaling and then gets out of your way.</h2>
+					<h1 id="project_title">
+						<a href="http://signalfirejs.github.io/"><img src="images/signalfire.png" alt="SignalFire.JS"></a>
+					</h1>
+					<h2 id="project_tagline">RTCPeerConnection signaling library/npm module. It does the signaling and then gets out of your way.</h2>
 
-        </header>
-    </div>
+				</header>
+		</div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Getting started with SignalFire</h3>
+		<!-- MAIN CONTENT -->
+		<div id="main_content_wrap" class="outer">
+			<section id="main_content" class="inner">
+				<h2>Getting started with SignalFire</h2>
 
-        <p>This is a simple tutorial for the SignalFire.js library.</p>
+				<p>This is a simple tutorial for the SignalFire.js library.</p>
 
-        <ul>
-        <li>  Github: <a href="https://github.com/traviswimer/SignalFire.js/">https://github.com/traviswimer/SignalFire.js/</a>
-        </li>
-        <li>  Twitter: <a href="https://github.com/SignalFireJS" class="user-mention">@SignalFireJS</a>
-        </li>
-        </ul><h3>Installation</h3>
+				<h2>Installation</h2>
 
-        <pre><code>1.  `npm install signalfire`</code></pre>
+				<pre><code>npm install signalfire</code></pre>
 
-        <p>This will download both the server-side and client-side scripts.</p>
+				<p>This will download both the server-side and client-side scripts.</p>
 
-        <h3>Using the library</h3>
+				<h2>Using the library</h2>
 
-        <p>First, we'll create the server-side code. In the directory where you ran <code>npm install signalfire</code>, create a new javascript file called <code>signal-server.js</code></p>
+				<p>For simplicity, this tutorial will explain how to create a web app that creates a peer connection between you and the previous person to open the app.</p>
 
-        <p>In this new file, we need to include the signalfire module:
-        <pre><code>var signalfire = require('signalfire');</code></pre></p>
+        <p>Impatient? - <a href="#full_code">View the Full Code Now</a></p>
+
+        <!-- Start server-side explaination -->
+        <h3>Server-side</h3>
+
+				<p>First, we'll create the server-side code. In the directory where you ran <code>npm install signalfire</code>, create a new javascript file called <code>signal-server.js</code></p>
+
+				<p>In this new file, we need to include the signalfire module:
+				<pre><code>var signalfire = require('signalfire');</code></pre></p>
+
+				<p>We need to keep track of the previous connection, so lets initialize a variable for that.
+				<pre><code>var lastPeer;</code></pre>
+				</p>
+
+				<p>Now we are ready for the fun part. First we need to listen for a socket connection
+				<pre><code>signalfire.listen(3333,function(peer){
+});</code></pre>
+				</p>
+
+				<p>If you are familiar with the Socket.io library, you will notice that this code is quite similar. The first parameter is the port number to listen for socket connections. The second parameter is a callback function that provides a <code>peer</code> object for the connecting socket.</pre>
+				</p>
+
+				<p>The peer object has a <code>socket</code> property that contains a Socket.io object, that can be used to detect data sent through the socket. Let's use this to allow the client-side to request a peer connection.
+				<pre><code>signalfire.listen(3333,function(peer){
+	peer.socket.on('askServerForPeer', function(data){
+  });
+});</code></pre>
+				</p>
+
+        <p>Now all that is left is to check if a previous peer has connected and if so, start the signaling process. (This connection will then be used for the next user to connect)
+        <pre><code>signalfire.listen(3333,function(peer){
+  peer.socket.on('askServerForPeer', function(data){
+    if(lastPeer){
+      peer.connectToPeer(lastPeer);
+    }
+    lastPeer = peer;
+  });
+});</code></pre>
+        </p>
+
+        <p>The <code>peer</code> object uses the <code>connectToPeer()</code> method to begin signaling. This method takes one parameter, which is simply another <code>peer</code> object.
+        </p>
+
+        <p>And that's it for the server-side!</p>
+				<!-- End server-side explaination -->
 
 
+				<!-- Start client-side explaination -->
+        <h3>Client-side</h3>
 
-        <!-- Start client-side explaination -->
-        <p>Next we will create the client-side script, so we need to create a new HTML file and include the necessary scripts:</p>
+				<p>Next we will create the client-side script, so let's create a new HTML file (call it anything you want) and a javascript file (our-app.js) for our app.</p>
 
-        <pre><code>&lt;script type="text/javascript" src="node_modules/signalfire/client/src/adaptor.js"&gt;&lt;/script&gt;
+        <p>Open the HTML file and include the necessary scripts:</p>
+
+				<pre><code>&lt;script type="text/javascript" src="node_modules/signalfire/client/src/adaptor.js"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="node_modules/signalfire/client/src/socket.io.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="node_modules/signalfire/client/src/signalfire-client.js"&gt;&lt;/script&gt;</code></pre>
-      
+&lt;script type="text/javascript" src="node_modules/signalfire/client/src/signalfire-client.js"&gt;&lt;/script&gt;
 
-      </section>
-    </div>
+&lt;script type="text/javascript" src="our-app.js"&gt;&lt;/script&gt;</code></pre>
+				
+        <p>Open up <code>our-app.js</code> and create a <code>options</code> object literal.</p>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
+        <pre><code>var options = {};</code></pre>
 
-    
+        <p>There are a few required properties that must be included within this object. The first is the <code>server</code>. It specifies the server and port to make a socket connection with.</p>
 
-  </body>
+        <p>In our server-side code, we are listening on port 3333. So, if you are using a local testing server, you will use the following code:</p>
+
+        <pre><code>var options = {
+  server: "http://localhost:3333"
+};</code></pre>
+
+        <p>We also need to include the <code>connector</code> option. This is a function that returns an <code>RTCPeerConnection</code> object. It will be called immediately before the signaling process to be used for the new peer connection.</p>
+
+        <p>This allows you to customize the RTCPeerConnection as you like. In this example, we will just set up a basic conection using Google's stun server. Let's do that now.<p>
+
+        <pre><code>var options = {
+  ...
+  connector: function(){
+    var newConnection = new RTCPeerConnection(
+        {
+          "iceServers": [{ "url": "stun:stun.l.google.com:19302" }]
+        }
+    );
+
+    return newConnection;
+  }
+};</code></pre>
+
+        <p>Another option we will include is <code>onSignalingComplete</code>. Technically it is not required, but it is very useful. It is a function that will be called when the signaling process is complete and a connection has been created.<p>
+
+        <p>For now, let's just make this function log a message to the console.<p>
+
+        <pre><code>var options = {
+  ...
+  onSignalingComplete: function(rtcPeerConnection){
+    console.log('Signaling Complete!');
+  }
+};</code></pre>
+
+        <p>So, your full options object should look like this:<p>
+
+        <pre><code>var options = {
+  server: "http://localhost:3333",
+
+  connector: function(){
+      var newConnection = new RTCPeerConnection(
+          {
+            "iceServers": [{ "url": "stun:stun.l.google.com:19302" }]
+          }
+      );
+
+      return newConnection;
+  },
+
+  onSignalingComplete: function(rtcPeerConnection){
+      console.log('Signaling Complete!');
+  }
+};</code></pre>
+
+        <p>Now we need to put all of this to use. We will use the signalfire <code>connect()</code> method to set everything up. This method takes 2 parameters.</p>
+
+        <p>The first is the an <code>options</code> object, like the one we just created. The second is a function that will be called once a socket connection has been created.<p>
+
+        <p>In this example, we will immediately send a socket request to the server that will initiate the signaling process.</p>
+
+        <pre><code>var conn = signalfire.connect(options,function(){
+  conn.emit('askServerForPeer',{});
+});</code></pre>
+
+        <p>And that is all the code you need!</p>
+
+        <h3>Running the code</h3>
+
+        <p>Now let's test out the code you just wrote. First, open a command line, and use node to run your server code:</p>
+
+        <pre><code>node signal-server.js</code></pre>
+
+        <p>You should get a message that socket.io is running</p>
+
+        <p>Next open up a browser that supports <code>RTCPeerConnection</code> and load up your HTML file. (Remember you'll need to open up the console to see it work)</p>
+
+        <p>Nothing will happen yet, because you are the only peer to connect to. To create a peer connection, you will need to open the HTML in another tab.</p>
+
+        <p>When you do this, you should see 'Signaling Complete!' disolayed in the consoles of both tabs.</p>
+
+        <p>If you open up more tabs, you will see that the message will be displayed again in the previous tab to connect.</p>
+
+        <p>You now have a working peer signaling server!</p>
+
+
+        <h2 id="full_code">The Full Code</h2>
+
+        <p>Below is the full code for both the server and client.</p>
+
+        <h3>Server-side</h3>
+
+        <pre><code>var signalfire = require('signalfire');
+
+var lastPeer;
+
+var sf=signalfire.listen(3333,function(peer){
+  peer.socket.on('askServerForPeer', function(data){
+    if(lastPeer){
+      peer.connectToPeer(lastPeer);
+    }
+    lastPeer = peer;
+  });
+},function(error){
+  console.log(error);
+});</code></pre>
+
+        <h3>Client-side</h3>
+
+        <pre><code>var options = {
+    server: "http://localhost:3333",
+
+    connector: function(){
+        var newConnection = new RTCPeerConnection(
+            {
+              "iceServers": [{ "url": "stun:stun.l.google.com:19302" }]
+            }
+        );
+
+        return newConnection;
+    },
+
+    onSignalingComplete: function(rtcPeerConnection){
+        console.log('Signaling Complete!');
+    }
+};
+
+var conn = signalfire.connect(options,function(){
+    conn.emit('askServerForPeer',{});
+});</code></pre>
+
+
+
+        <!-- End client-side explaination -->
+			
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		<div id="footer_wrap" class="outer">
+			<footer class="inner">
+				<p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+			</footer>
+		</div>
+
+		
+
+	</body>
 </html>
