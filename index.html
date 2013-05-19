@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Signalfirejs.github.io : Signaling Library" />
+    <meta name="description" content="SignalFire.JS : RTCPeerConnection signaling library/npm module. It does the signaling and then gets out of your way." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Signalfirejs.github.io</title>
+    <title>SignalFire.js</title>
   </head>
 
   <body>
@@ -16,10 +16,10 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/signalfirejs">View on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/traviswimer/SignalFire.js">View on GitHub</a>
 
-          <h1 id="project_title">Signalfirejs.github.io</h1>
-          <h2 id="project_tagline">Signaling Library</h2>
+          <h1 id="project_title">SignalFire.JS</h1>
+          <h2 id="project_tagline">RTCPeerConnection signaling library/npm module. It does the signaling and then gets out of your way.</h2>
 
         </header>
     </div>
@@ -27,32 +27,35 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+        <h3>Getting started with SignalFire</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+        <p>This is a simply tutorial for the SignalFire.js library.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+        <ul>
+        <li>  Github: <a href="https://github.com/traviswimer/SignalFire.js/">https://github.com/traviswimer/SignalFire.js/</a>
+        </li>
+        <li>  Twitter: <a href="https://github.com/SignalFireJS" class="user-mention">@SignalFireJS</a>
+        </li>
+        </ul><h3>Installation</h3>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+        <pre><code>1.  `npm install signalfire`
+        </code></pre>
 
-<h3>Designer Templates</h3>
+        <p>This will download both the server-side and client-side scripts.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+        <h3>Using the library</h3>
 
-<h3>Rather Drive Stick?</h3>
+        <p>First, we'll create the server-side code. In the directory where you ran <code>npm install signalfire</code>, create a new javascript file called <code>signal-server.js</code></p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+        <p>In this new file, you need to include the signalfire module:
+        <code>var signalfire = require('signalfire');</code></p>
 
-<h3>Authors and Contributors</h3>
+        <p>So we need to create a new HTML file and include the necessary scripts:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <pre><code>&lt;script type="text/javascript" src="node_modules/signalfire/client/src/adaptor.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="node_modules/signalfire/client/src/socket.io.js"&gt;&lt;/script&gt;
+        &lt;script type="text/javascript" src="node_modules/signalfire/client/src/signalfire-client.js"&gt;&lt;/script&gt;
+        </code></pre>
       </section>
     </div>
 
