@@ -29,38 +29,25 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>Getting started with SignalFire</h3>
 
-        <p>This is a simple tutorial for the SignalFire.js library.</p>
+        <h3>Where to start</h3>
 
         <ul>
-        <li>  Github: <a href="https://github.com/traviswimer/SignalFire.js/">https://github.com/traviswimer/SignalFire.js/</a>
-        </li>
-        <li>  Twitter: <a href="https://github.com/SignalFireJS" class="user-mention">@SignalFireJS</a>
-        </li>
-        </ul><h3>Installation</h3>
+          <li><a href="tutorial.html">Quick Tutorial</a></li>
+          <li><a href="https://github.com/traviswimer/SignalFire.js">Github Source</a></li>
+        </ul>
+        
+        <h3>Why do I need this?</h3>
 
-        <pre><code>1.  `npm install signalfire`</code></pre>
+        <p>There are other open-source signaling options, but many create a layer of abstraction around the RTCPeerConnection object. Although this can be useful, it can also be restrictive, especially when the WebRTC specification is still in flux.</p>
 
-        <p>This will download both the server-side and client-side scripts.</p>
+        <p>The purpose of SignalFire.js is to:</p>
 
-        <h3>Using the library</h3>
-
-        <p>First, we'll create the server-side code. In the directory where you ran <code>npm install signalfire</code>, create a new javascript file called <code>signal-server.js</code></p>
-
-        <p>In this new file, we need to include the signalfire module:
-        <pre><code>var signalfire = require('signalfire');</code></pre></p>
-
-
-
-        <!-- Start client-side explaination -->
-        <p>Next we will create the client-side script, so we need to create a new HTML file and include the necessary scripts:</p>
-
-        <pre><code>&lt;script type="text/javascript" src="node_modules/signalfire/client/src/adaptor.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="node_modules/signalfire/client/src/socket.io.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="node_modules/signalfire/client/src/signalfire-client.js"&gt;&lt;/script&gt;</code></pre>
-      
-
+        <ul>
+          <li>Only focus on signaling</li>
+          <li>Give developer control before signaling</li>
+          <li>Return complete control to the developer after signaling</li>
+        </ul>
       </section>
     </div>
 
