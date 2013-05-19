@@ -31,7 +31,7 @@
       <section id="main_content" class="inner">
         <h3>Getting started with SignalFire</h3>
 
-        <p>This is a simply tutorial for the SignalFire.js library.</p>
+        <p>This is a simple tutorial for the SignalFire.js library.</p>
 
         <ul>
         <li>  Github: <a href="https://github.com/traviswimer/SignalFire.js/">https://github.com/traviswimer/SignalFire.js/</a>
@@ -40,8 +40,7 @@
         </li>
         </ul><h3>Installation</h3>
 
-        <pre><code>1.  `npm install signalfire`
-        </code></pre>
+        <pre><code>1.  `npm install signalfire`</code></pre>
 
         <p>This will download both the server-side and client-side scripts.</p>
 
@@ -49,15 +48,19 @@
 
         <p>First, we'll create the server-side code. In the directory where you ran <code>npm install signalfire</code>, create a new javascript file called <code>signal-server.js</code></p>
 
-        <p>In this new file, you need to include the signalfire module:
-        <code>var signalfire = require('signalfire');</code></p>
+        <p>In this new file, we need to include the signalfire module:
+        <pre><code>var signalfire = require('signalfire');</code></pre></p>
 
-        <p>So we need to create a new HTML file and include the necessary scripts:</p>
+
+
+        <!-- Start client-side explaination -->
+        <p>Next we will create the client-side script, so we need to create a new HTML file and include the necessary scripts:</p>
 
         <pre><code>&lt;script type="text/javascript" src="node_modules/signalfire/client/src/adaptor.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript" src="node_modules/signalfire/client/src/socket.io.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript" src="node_modules/signalfire/client/src/signalfire-client.js"&gt;&lt;/script&gt;
-        </code></pre>
+&lt;script type="text/javascript" src="node_modules/signalfire/client/src/socket.io.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="node_modules/signalfire/client/src/signalfire-client.js"&gt;&lt;/script&gt;</code></pre>
+      
+
       </section>
     </div>
 
