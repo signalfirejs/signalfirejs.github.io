@@ -117,18 +117,20 @@
 
         <p>We also need to include the <code>connector</code> option. This is a function that returns an <code>RTCPeerConnection</code> object. It will be called immediately before the signaling process to be used for the new peer connection.</p>
 
+        <p>A callback function <code>startSignaling</code> is provided as the first argument of the connector function. This callback is used to pass the RTCPeerConnection object to SignalFire and to initialize the signaling process.<p>
+
         <p>This allows you to customize the RTCPeerConnection as you like. In this example, we will just set up a basic conection using Google's stun server. Let's do that now.<p>
 
         <pre><code>var options = {
   ...
-  connector: function(){
+  connector: function(startSignaling){
     var newConnection = new RTCPeerConnection(
         {
           "iceServers": [{ "url": "stun:stun.l.google.com:19302" }]
         }
     );
 
-    return newConnection;
+    startSignaling(newConnection);
   }
 };</code></pre>
 
@@ -148,14 +150,14 @@
         <pre><code>var options = {
   server: "http://localhost:3333",
 
-  connector: function(){
+  connector: function(startSignaling){
       var newConnection = new RTCPeerConnection(
           {
             "iceServers": [{ "url": "stun:stun.l.google.com:19302" }]
           }
       );
 
-      return newConnection;
+      startSignaling(newConnection);
   },
 
   onSignalingComplete: function(rtcPeerConnection){
@@ -220,14 +222,14 @@ var sf=signalfire.listen(3333,function(peer){
         <pre><code>var options = {
     server: "http://localhost:3333",
 
-    connector: function(){
+    connector: function(startSignaling){
         var newConnection = new RTCPeerConnection(
             {
               "iceServers": [{ "url": "stun:stun.l.google.com:19302" }]
             }
         );
 
-        return newConnection;
+        startSignaling(newConnection);
     },
 
     onSignalingComplete: function(rtcPeerConnection){
